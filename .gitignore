@@ -1,0 +1,10 @@
+__pycache__
+.idea
+/paddle4
+/paddle3
+/paddle2
+/paddle1
+/vid2img
+*.png
+*.jpg
+*.p
