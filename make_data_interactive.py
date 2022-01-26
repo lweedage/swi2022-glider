@@ -11,6 +11,9 @@ import os
 
 coordinates = []
 
+dir = 'paddle4/'
+start_frame = 0
+increment = 5
 
 matplotlib.use('TkAgg')
 fig, ax = plt.subplots()
@@ -47,7 +50,7 @@ class PathInteractor:
         self.pathpatch = pathpatch
         self.pathpatch.set_animated(True)
 
-        self.frame = 0
+        self.frame = start_frame
 
         x, y = zip(*self.pathpatch.get_path().vertices)
 
@@ -116,10 +119,10 @@ class PathInteractor:
             xy = np.asarray(self.pathpatch.get_path().vertices)
             print(xy)
             coordinates.append(xy)
-            self.frame += 1
-            if os.path.exists(str('vid2img/paddle-4-frame' + str(self.frame) + '.jpg')):
-                print(str('vid2img/paddle-4-frame' + str(self.frame) + '.jpg'))
-            im = cv2.imread(str('vid2img/paddle-4-frame' + str(self.frame) + '.jpg'))
+            self.frame += increment
+            if os.path.exists(str(dir + 'frame' + "{:04d}".format(self.frame) + '.jpg')):
+                print(str(dir + 'frame' + "{:04d}".format(self.frame) + '.jpg'))
+            im = cv2.imread(str(dir + 'frame' + "{:04d}".format(self.frame) + '.jpg'))
             # im_resized = cv2.resize(im, (224, 224), interpolation=cv2.INTER_LINEAR)
             plt.imshow(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
         self.canvas.draw()
@@ -151,4 +154,4 @@ plt.show()
 
 print(coordinates)
 
-pickle.dump(coordinates, open('data.p', 'wb'), protocol = 4)
+pickle.dump(coordinates, open(str(dir + 'frame_' + str(start_frame) + 'increment=' + str(increment) + '.p'), 'wb'), protocol = 4)

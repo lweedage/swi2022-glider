@@ -11,6 +11,9 @@ import os
 
 coordinates = []
 
+dir = 'paddle4/'
+start_frame = 0
+increment = 5
 
 matplotlib.use('TkAgg')
 fig, ax = plt.subplots()
@@ -149,4 +152,4 @@ plt.show()
 
 print(coordinates)
 
-pickle.dump(coordinates, open('paddle_4_data_center_point.p', 'wb'), protocol = 4)
+pickle.dump(coordinates, open(str(dir + 'center_point_frame_' + str(start_frame) + 'increment=' + str(increment) + '.p'), 'wb'), protocol = 4)
