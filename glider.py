@@ -25,7 +25,6 @@ for k in range(len(data)):
     rem = False
     if k > 0:
         for j in range(4):
-            print(np.linalg.norm(np.subtract(data[k][j], data[k-1][j])))
             if np.linalg.norm(np.subtract(data[k][j], data[k-1][j])) > 200:
                 rem = True
     
