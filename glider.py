@@ -1,20 +1,21 @@
 import math
 import numpy as np
 import pickle
+import seaborn as sns
 import matplotlib.pyplot as plt
 
 #data = pickle.load(open('data.p', 'wb'))
 
 dat = [[[np.random.uniform(0.0, 1.0), np.random.uniform(0.0, 1.0)] for i in range(4)]]
 
-for k in range(200):
+for k in range(100):
     newp = [[0,0],[0,0],[0,0],[0,0]]
     for j in range(4):
         newp[j][0] = dat[-1][j][0] + np.random.uniform(-0.05, 0.05)
         newp[j][1] = dat[-1][j][1] + np.random.uniform(-0.05, 0.05)  #+ [[np.random.uniform(-0.1, 0.1), np.random.uniform(-0.1, 0.1)] for i in range(2)]
     dat.append(newp)
 
-t = range(1,len(dat)+1)
+t = list(range(1,len(dat)+1))
 
 data = dat
 def find_intersection(x1, y1, x2, y2, x3, y3, x4, y4):
@@ -48,6 +49,7 @@ for vertical_back, vertical_front, horizontal_left, horizontal_right in data:
 
     # center coordinates
     x_center, y_center = find_intersection(x1, y1, x2, y2, x3, y3, x4, y4)
+
     center_points.append((x_center, y_center))
 
     # append vertical and horizontal length
@@ -66,7 +68,7 @@ for vertical_back, vertical_front, horizontal_left, horizontal_right in data:
     left_wing_length = math.sqrt((x3-x_center)**2 + (y3-y_center)**2)
     right_wing_length = math.sqrt((x4-x_center)**2 + (y4-y_center)**2)
 
-#print(center_points)
+# collect data
 cpoints = np.array(center_points)
 cpoints = cpoints.T
 
@@ -82,33 +84,43 @@ hl = hl.T
 hr = np.array(hr)
 hr = hr.T
 
+# set center, left, right points
 xc, yc = cpoints
+
 xvf, yvf = vf
 xvb, yvb = vb
 
 xhl, yhl = hl
 xhr, yhr = hr
 
-print(xvf)
-Nshow = 20
-for k in range(Nshow):
-    xval = [xvf[k],xvb[k]]
-    yval = [yvf[k],yvb[k]]
-    xval2 = [xhl[k],xhr[k]]
-    yval2 = [yhl[k],yhr[k]]
-    plt.plot(xval,yval,'k-')
-    plt.plot(xval2,yval2,'k-')
-    plt.show()
+# heatmap
+xedges = np.linspace(-2,2.1,22)
+yedges = np.linspace(-2,2.1,22)
+fig, ax = plt.subplots()
+h = plt.hist2d(xc, yc, bins=(10, 10))
+fig.colorbar(h[3], ax=ax)
+plt.title('Heatmap of glider position')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
 
+# x center trajectory
 plt.plot(t,xc)
+plt.title('Center of glider trajectory')
+plt.xlabel('t')
+plt.ylabel('x center')
 plt.show()
 
+# y center trajectory
 plt.plot(t,yc)
+plt.title('Center of glider trajectory')
+plt.xlabel('t')
+plt.ylabel('y center')
 plt.show()
 
-plt.plot(t,vlength)
-plt.show()
+# plt.plot(t,vlength)
+# plt.show()
 
-plt.plot(t,hlength)
-plt.show()
+# plt.plot(t,hlength)
+# plt.show()
 
